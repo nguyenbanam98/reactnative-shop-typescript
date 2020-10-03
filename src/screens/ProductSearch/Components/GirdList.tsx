@@ -1,23 +1,32 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FlatList, View, StyleSheet, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
 import dataProduct, { Product } from '../../../datas/DataProduct';
+import { useNavigation } from '@react-navigation/native';
 const windowWidth = Dimensions.get('window').width;
 
 const keyExtractor = (item: Product, index: number) => index.toString();
 
 interface ItemProduct {
   index: number;
-  // url: string;
   name: string;
   price: number;
   brand: string;
-  item: Product
+  item: Product;
+  onAddToCart: (item: Product) => void;
+
 }
 
 const Item = (props: ItemProduct) => {
+
+  const navigation = useNavigation();
+  const onGoDetail = useCallback(() => {
+    navigation.navigate('ProductDeatil')
+  }, [])
+
   return (
     <TouchableOpacity
       style={[styles.item, { marginLeft: props.index % 2 === 1 ? 20 : 0 }]}
+      onPress={onGoDetail}
     >
       <Image
         source={require('../../../assets/Image.png')}
@@ -31,6 +40,7 @@ const Item = (props: ItemProduct) => {
         right: 12,
         bottom: 15
       }}
+        onPress={() => props.onAddToCart(props.item)}
       >
         <Text style={styles.txtCart}>ADD TO CART</Text>
       </TouchableOpacity>
@@ -39,6 +49,7 @@ const Item = (props: ItemProduct) => {
 }
 
 interface GridListProps {
+  onAddToCart?: (item: Product) => void;
 }
 
 const GridList = (props: GridListProps) => {
@@ -53,15 +64,21 @@ const GridList = (props: GridListProps) => {
   }, []);
 
   const empty = useCallback(() => <Text>Không có dữ liệu</Text>, []);
+
+  const onAddToCart = useCallback(
+    (item: Product) => props.onAddToCart && props.onAddToCart(item)
+    , [])
   const renderItem = useCallback(
     ({ item, index }: { item: Product, index: number }) => <Item
       index={index}
       name={item.name}
       brand={item.brand}
       price={item.price}
+      onAddToCart={onAddToCart}
       item={item}
     />
     , []);
+
   return (
     <View style={styles.container}>
       <FlatList

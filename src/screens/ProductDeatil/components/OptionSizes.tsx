@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import dataSize, { Size } from '../../../datas/dataSize'
+import Line from './Line';
 
 export default function componentName() {
 
@@ -11,7 +12,7 @@ export default function componentName() {
       <Text style={styles.txtName}>Ao bong da Liverpool nam 2018</Text>
       <Text style={styles.txtBrand}>NIKE</Text>
       <Text style={styles.txtPrice}>$130</Text>
-      <View style={styles.line}></View>
+      <Line />
       <View style={{
         flexDirection: 'row',
         marginHorizontal: 16,
@@ -70,5 +71,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: 'bold'
   },
-  line: { backgroundColor: "#CACFD2", marginHorizontal: 10, marginTop: 10, height: 1 }
+
 });

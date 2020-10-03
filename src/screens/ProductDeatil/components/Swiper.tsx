@@ -6,7 +6,6 @@ const windowWidth = Dimensions.get('window').width;
 
 export default function Swiper() {
   const [_index, setIndex] = useState(0)
-  console.log('swiper');
   return (
     <>
       <View style={{ height: 250 }}>

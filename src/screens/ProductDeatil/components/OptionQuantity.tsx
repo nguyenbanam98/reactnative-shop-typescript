@@ -1,21 +1,29 @@
 import React, { useState, useCallback } from 'react';
-import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Text, Image, StyleSheet, ViewStyle } from 'react-native';
 
-const OptionQuantity = () => {
+interface Props {
+  style?: ViewStyle;
+  callBackValue?: (qti: number) => void;
+}
+
+
+const OptionQuantity = (props: Props) => {
   const [number, setNumber] = useState(1);
 
   const onReduce = useCallback(() => {
     if (number === 1) return;
+    props.callBackValue && props.callBackValue(number - 1);
     setNumber(number - 1)
   }, [number]);
 
   const onPlus = useCallback(() => {
+    props.callBackValue && props.callBackValue(number + 1);
     setNumber(number + 1)
   }, [number]);
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.style]}>
       <Text style={styles.txtTitle}>Qti</Text>
       <TouchableOpacity
         style={[styles.button, {
